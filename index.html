@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verizon · Family Plan</title>
+<style>
+  :root {
+    --red: #CD040B;
+    --red-dark: #a80308;
+    --bg: #f2f2f2;
+    --surface: #ffffff;
+    --text: #111111;
+    --sub: #777777;
+    --border: #e0e0e0;
+    --up: #c0392b;
+    --down: #1a7f4b;
+    --warn-bg: #fffbeb;
+    --warn-text: #854d0e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--red);
+    color: white;
+    padding: 18px 20px 16px;
+  }
+
+  header .wordmark {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    opacity: 0.75;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+  }
+
+  /* ── Layout ── */
+  .page { max-width: 860px; margin: 0 auto; padding: 20px 16px 48px; }
+
+  /* ── Month pills ── */
+  .month-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .month-pill {
+    padding: 5px 14px;
+    border-radius: 99px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--sub);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .month-pill.active {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+
+  /* ── Venmo block ── */
+  .venmo-block {
+    background: var(--red);
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    color: white;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+  }
+
+  .venmo-block .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    opacity: 0.7;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .venmo-block .amount {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+
+  .venmo-block .split {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-top: 6px;
+  }
+
+  .venmo-tag {
+    background: rgba(255,255,255,0.18);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Grid ── */
+  .grid-5 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  @media (min-width: 480px) { .grid-5 { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 700px) { .grid-5 { grid-template-columns: repeat(5, 1fr); } }
+
+  /* ── Person card ── */
+  .person-card {
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    padding: 15px 16px 14px;
+  }
+
+  .person-card.highlight {
+    border-color: #f4a9ac;
+    background: #fff8f8;
+  }
+
+  .person-card .pname {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sub);
+    letter-spacing: 0.03em;
+    margin-bottom: 4px;
+  }
+
+  .person-card .ptotal {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.1;
+  }
+
+  .person-card .pdelta {
+    font-size: 11px;
+    margin-top: 5px;
+  }
+
+  .pdelta.up { color: var(--up); }
+  .pdelta.down { color: var(--down); }
+  .pdelta.flat { color: var(--sub); }
+
+  .ot-badge {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sub);
+    letter-spacing: 0.04em;
+    margin: 24px 0 10px;
+    text-transform: uppercase;
+  }
+
+  /* ── Device card ── */
+  .device-card {
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    padding: 16px 18px;
+    margin-bottom: 8px;
+  }
+
+  .device-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .device-who {
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .device-model {
+    font-size: 13px;
+    color: var(--sub);
+    margin-top: 1px;
+  }
+
+  .device-balance {
+    font-size: 13px;
+    color: var(--sub);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .device-balance strong {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .bar-track {
+    height: 5px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 7px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--red);
+    border-radius: 99px;
+  }
+
+  .bar-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--sub);
+  }
+
+  /* ── History table ── */
+  .table-wrap {
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 580px;
+  }
+
+  thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sub);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid var(--border);
+    background: #f9f9f9;
+    white-space: nowrap;
+  }
+
+  tbody td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  tbody tr:hover td { background: #fafafa; }
+
+  .td-month { font-weight: 600; color: var(--text); }
+  .td-venmo { font-weight: 700; color: var(--red); }
+  .td-total { color: var(--sub); }
+
+  .ot-flag {
+    display: inline-block;
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    font-size: 9px;
+    font-weight: 700;
+    border-radius: 3px;
+    padding: 1px 4px;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+
+  /* ── Footnote ── */
+  .footnote {
+    font-size: 12px;
+    color: var(--sub);
+    margin-top: 10px;
+    padding: 0 2px;
+  }
+
+  /* ── Empty / error state ── */
+  .empty-state {
+    background: var(--surface);
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    padding: 48px 24px;
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  .empty-state h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .empty-state p {
+    font-size: 14px;
+    color: var(--sub);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wordmark">Larson · Calderwood</div>
+  <h1>Verizon Family Plan</h1>
+</header>
+
+<div class="page" id="app">
+  <p style="color:var(--sub);margin-top:20px;">Loading...</p>
+</div>
+
+<script>
+// ── CSV parser ──────────────────────────────────────────────────────────────
+function parseCSV(raw) {
+  const lines = raw.trim().split('\n');
+  const headers = splitLine(lines[0]);
+  return lines.slice(1)
+    .map(l => {
+      const vals = splitLine(l);
+      const obj = {};
+      headers.forEach((h, i) => obj[h.trim()] = (vals[i] || '').trim());
+      return obj;
+    })
+    .filter(r => r.person);
+}
+
+function splitLine(line) {
+  const out = []; let cur = ''; let q = false;
+  for (const ch of line) {
+    if (ch === '"') { q = !q; }
+    else if (ch === ',' && !q) { out.push(cur); cur = ''; }
+    else cur += ch;
+  }
+  out.push(cur);
+  return out;
+}
+
+// ── Helpers ─────────────────────────────────────────────────────────────────
+const $ = s => document.querySelector(s);
+const money = n => '$' + Math.abs(parseFloat(n) || 0).toFixed(2);
+
+function delta(cur, prev) {
+  if (prev == null) return null;
+  const d = parseFloat(cur) - parseFloat(prev);
+  if (Math.abs(d) < 0.02) return { label: 'same as last month', cls: 'flat' };
+  return d > 0
+    ? { label: `+${money(d)} from last month`, cls: 'up' }
+    : { label: `${money(d).replace('$', '-$')} from last month`, cls: 'down' };
+}
+
+// ── Render ──────────────────────────────────────────────────────────────────
+function render(rows) {
+  const app = document.getElementById('app');
+
+  if (!rows.length) {
+    app.innerHTML = `
+      <div class="empty-state">
+        <h2>No billing data yet</h2>
+        <p>Upload <code>verizon_master.csv</code> to the <code>data/</code> folder to get started.</p>
+      </div>`;
+    return;
+  }
+
+  // Group rows by month
+  const monthMap = {};
+  rows.forEach(r => {
+    const k = r.bill_month_label;
+    if (!monthMap[k]) monthMap[k] = [];
+    monthMap[k].push(r);
+  });
+
+  // Sort months newest first
+  const PEOPLE = ['Jeff', 'Koko', 'Zach', 'Alex', 'Beth'];
+  const monthKeys = Object.keys(monthMap).reverse();
+  let activeIdx = 0;
+
+  function personRow(monthRows, name) {
+    return monthRows.find(r => r.person === name) || null;
+  }
+
+  function lineTotal(monthRows, name) {
+    const r = personRow(monthRows, name);
+    return r ? parseFloat(r.total_line_charge || 0) : null;
+  }
+
+  function buildPage(idx) {
+    const key = monthKeys[idx];
+    const mRows = monthMap[key];
+    const prevRows = idx + 1 < monthKeys.length ? monthMap[monthKeys[idx + 1]] : null;
+
+    const jeffAmt  = lineTotal(mRows, 'Jeff')  || 0;
+    const kokoAmt  = lineTotal(mRows, 'Koko')  || 0;
+    const venmoAmt = jeffAmt + kokoAmt;
+    const dueDate  = (mRows[0] || {}).due_date || '';
+
+    // Month pills
+    const pills = monthKeys.map((k, i) =>
+      `<button class="month-pill${i === idx ? ' active' : ''}" onclick="selectMonth(${i})">${k}</button>`
+    ).join('');
+
+    // Person cards
+    const personCards = PEOPLE.map(p => {
+      const tot = lineTotal(mRows, p);
+      if (tot === null) return '';
+      const prev = prevRows ? lineTotal(prevRows, p) : null;
+      const d = delta(tot, prev);
+      const r = personRow(mRows, p);
+      const hasOT = r && Math.abs(parseFloat(r.one_time_amount || 0)) > 0.01;
+      const highlight = p === 'Jeff' || p === 'Koko';
+      return `
+        <div class="person-card${highlight ? ' highlight' : ''}">
+          <div class="pname">${p}</div>
+          <div class="ptotal">${money(tot)}</div>
+          ${d ? `<div class="pdelta ${d.cls}">${d.label}</div>` : ''}
+          ${hasOT ? `<span class="ot-badge">one-time charge</span>` : ''}
+        </div>`;
+    }).join('');
+
+    // Device payment cards
+    const devicePeople = ['Jeff', 'Koko', 'Alex'];
+    const deviceCards = devicePeople.map(p => {
+      const r = personRow(mRows, p);
+      if (!r || !parseInt(r.device_payment_total)) return '';
+      const payN  = parseInt(r.device_payment_number) || 0;
+      const payT  = parseInt(r.device_payment_total)  || 36;
+      const bal   = parseFloat(r.device_balance_remaining) || 0;
+      const net   = parseFloat(r.net_device_cost) || 0;
+      const pct   = Math.min(100, Math.round(payN / payT * 100));
+      const left  = payT - payN;
+      return `
+        <div class="device-card">
+          <div class="device-top">
+            <div>
+              <div class="device-who">${p}</div>
+              <div class="device-model">${r.device_model} · ${money(net)}/mo net</div>
+            </div>
+            <div class="device-balance">
+              <strong>${money(bal)}</strong>remaining
+            </div>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+          <div class="bar-labels">
+            <span>${pct}% paid</span>
+            <span>${left} of ${payT} payments left</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    // History table — oldest → newest
+    const histRows = [...monthKeys].reverse().map(k => {
+      const mr = monthMap[k];
+      const cells = PEOPLE.map(p => {
+        const r = personRow(mr, p);
+        if (!r) return '<td>—</td>';
+        const hasOT = Math.abs(parseFloat(r.one_time_amount || 0)) > 0.01;
+        return `<td>${money(r.total_line_charge)}${hasOT ? '<span class="ot-flag">OT</span>' : ''}</td>`;
+      }).join('');
+      const jk = (lineTotal(mr, 'Jeff') || 0) + (lineTotal(mr, 'Koko') || 0);
+      const acct = mr.find(r => r.person === 'ACCOUNT');
+      const billTotal = mr
+        .filter(r => r.person !== 'ACCOUNT')
+        .reduce((s, r) => s + parseFloat(r.total_line_charge || 0), 0)
+        + (acct ? parseFloat(acct.total_line_charge || 0) : 0);
+      const isCurrent = k === key;
+      return `
+        <tr>
+          <td class="td-month">${k}${isCurrent ? ' ←' : ''}</td>
+          ${cells}
+          <td class="td-venmo">${money(jk)}</td>
+          <td class="td-total">${money(billTotal)}</td>
+        </tr>`;
+    }).join('');
+
+    app.innerHTML = `
+      <div class="month-row">${pills}</div>
+
+      <div class="venmo-block">
+        <div>
+          <div class="eyebrow">Venmo Zach · ${dueDate ? 'Due ' + dueDate : key}</div>
+          <div class="amount">${money(venmoAmt)}</div>
+          <div class="split">Jeff ${money(jeffAmt)} + Koko ${money(kokoAmt)}</div>
+        </div>
+        <div class="venmo-tag">@Zach</div>
+      </div>
+
+      <div class="section-label">This month by line</div>
+      <div class="grid-5">${personCards}</div>
+      <p class="footnote">Jeff &amp; Koko highlighted · $20 military discount stays with Alex · account 223893379-00001</p>
+
+      <div class="section-label">Device payments</div>
+      ${deviceCards || '<p class="footnote">No active device payments this month.</p>'}
+
+      <div class="section-label">Billing history</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Jeff</th><th>Koko</th><th>Zach</th><th>Alex</th><th>Beth</th>
+              <th>J+K Venmo</th>
+              <th>Bill total</th>
+            </tr>
+          </thead>
+          <tbody>${histRows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  window.selectMonth = function(i) {
+    activeIdx = i;
+    buildPage(i);
+  };
+
+  buildPage(0);
+}
+
+// ── Fetch CSV ────────────────────────────────────────────────────────────────
+fetch('./data/verizon_master.csv')
+  .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+  .then(t => render(parseCSV(t)))
+  .catch(() => render([]));
+</script>
+</body>
+</html>
