@@ -7,236 +7,306 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg:           #f1f5f9;
+      --surface:      #ffffff;
+      --border:       #e2e8f0;
+      --border-str:   #cbd5e1;
+      --text:         #0f172a;
+      --text-2:       #64748b;
+      --text-3:       #94a3b8;
+      --person-bg:    #f8fafc;
+      --accent:       #3b82f6;
+      --total-bg:     #f1f5f9;
+      --venmo-bg:     #f0fdf4;
+      --venmo-text:   #15803d;
+      --venmo-bdr:    #86efac;
+      --mil-bg:       #f0fdf4;
+      --mil-text:     #15803d;
+      --acct-bg:      #1e293b;
+      --acct-text:    #f8fafc;
+      --neg:          #16a34a;
+      --cur-bg:       #fefce8;
+      --cur-bdr:      #fbbf24;
+      --label-w:      148px;
+      --col-min:      88px;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #efefef;
-      color: #1a1a1a;
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       font-size: 13px;
       min-height: 100vh;
     }
 
-    /* ── Header ───────────────────────────────────────── */
+    /* ── Header ─────────────────────────────────────── */
     .site-header {
-      background: #111;
-      color: #fff;
-      padding: 16px 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
       display: flex;
-      align-items: baseline;
-      gap: 14px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      align-items: center;
+      gap: 10px;
     }
-    .site-header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
-    .site-header .sub { font-size: 11px; color: #666; }
+    .site-header h1 { font-size: 14px; font-weight: 700; color: var(--text); }
+    .site-header .sub { font-size: 11px; color: var(--text-3); }
 
-    /* ── Layout ───────────────────────────────────────── */
-    .main { padding: 20px; }
+    /* ── Layout ─────────────────────────────────────── */
+    .main { padding: 16px; }
 
-    /* ── Table ────────────────────────────────────────── */
+    /* ── Table wrap ─────────────────────────────────── */
     .table-wrap {
-      overflow-x: auto;
-      background: #fff;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 10px;
-      border: 1px solid #ddd;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-      margin-bottom: 24px;
+      overflow-x: auto;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-str) transparent;
     }
+    .table-wrap::-webkit-scrollbar { height: 4px; }
+    .table-wrap::-webkit-scrollbar-thumb { background: var(--border-str); border-radius: 4px; }
 
-    table { border-collapse: collapse; width: max-content; min-width: 100%; }
+    table { border-collapse: collapse; width: 100%; }
 
-    /* Month header */
-    thead tr th {
-      background: #111;
-      color: #fff;
-      padding: 11px 22px;
+    /* ── thead ──────────────────────────────────────── */
+    thead th {
+      background: var(--person-bg);
+      color: var(--text-2);
+      padding: 8px 12px;
       text-align: right;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 600;
       white-space: nowrap;
-      letter-spacing: 0.4px;
-      border-right: 1px solid #2a2a2a;
+      border-bottom: 2px solid var(--border-str);
+      border-right: 1px solid var(--border);
     }
-    thead tr th.col-label {
+    thead th.th-lbl {
       text-align: left;
-      min-width: 190px;
+      width: var(--label-w);
+      min-width: var(--label-w);
       position: sticky;
       left: 0;
       z-index: 20;
-      background: #111;
-      border-right: 2px solid #383838;
+      background: var(--person-bg);
+      border-right: 2px solid var(--border-str);
     }
-    thead tr th.col-current { background: #1e1e1e; }
+    thead th.th-dat { min-width: var(--col-min); }
+    thead th.c-cur {
+      background: var(--cur-bg);
+      color: #854d0e;
+      border-bottom-color: var(--cur-bdr);
+    }
 
-    /* Body cells */
+    /* ── tbody base ─────────────────────────────────── */
     tbody td {
-      padding: 4px 22px;
+      padding: 4px 12px;
       text-align: right;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid #f8fafc;
+      background: var(--surface);
       white-space: nowrap;
-      border-right: 1px solid #ebebeb;
-      border-bottom: 1px solid #f5f5f5;
-      color: #333;
-      background: #fff;
     }
-    tbody td.col-label {
+    tbody td.td-lbl {
       text-align: left;
-      color: #666;
+      color: var(--text-2);
       font-size: 12px;
+      width: var(--label-w);
+      min-width: var(--label-w);
       position: sticky;
       left: 0;
       z-index: 10;
-      background: #fff;
-      border-right: 2px solid #e2e2e2;
-      padding-left: 26px;
+      background: var(--surface);
+      border-right: 2px solid var(--border);
     }
-    tbody tr:nth-child(even) td            { background: #fafafa; }
-    tbody tr:nth-child(even) td.col-label  { background: #fafafa; }
-    tbody td.col-current                   { background: #fffef4 !important; }
+    tbody tr:nth-child(even) td         { background: #fafbfc; }
+    tbody tr:nth-child(even) td.td-lbl  { background: #fafbfc; }
+    tbody td.c-cur { background: #fffef5 !important; }
 
-    /* Person header */
-    tr.row-person td {
-      background: #1e1e1e !important;
-      color: #fff !important;
+    /* ── Person header ──────────────────────────────── */
+    tr.r-person td {
+      background: var(--person-bg) !important;
+      color: var(--text) !important;
       font-weight: 700;
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 1.2px;
-      padding: 7px 22px;
-      border-bottom: none;
+      letter-spacing: 0.7px;
+      padding: 7px 12px;
+      border-top: 1px solid var(--border-str);
+      border-bottom: 1px solid var(--border);
     }
-    tr.row-person td.col-label {
-      background: #1e1e1e !important;
-      color: #fff !important;
-      border-right: 2px solid #333;
+    tr.r-person td.td-lbl {
+      background: var(--person-bg) !important;
+      border-left: 3px solid var(--accent);
+      border-right: 2px solid var(--border-str);
     }
-    tr.row-person td.col-current { background: #2a2a2a !important; }
+    tr.r-person td.c-cur { background: var(--cur-bg) !important; }
 
-    /* Total row */
-    tr.row-total td {
+    /* ── Total ──────────────────────────────────────── */
+    tr.r-total td {
+      background: var(--total-bg) !important;
       font-weight: 700 !important;
-      color: #111 !important;
-      background: #f0f0f0 !important;
-      border-top: 1px solid #d4d4d4;
-      font-size: 13px;
+      color: var(--text) !important;
+      border-top: 1px solid var(--border-str);
     }
-    tr.row-total td.col-label {
-      color: #111 !important;
-      background: #f0f0f0 !important;
+    tr.r-total td.td-lbl {
+      background: var(--total-bg) !important;
+      color: var(--text) !important;
     }
-    tr.row-total td.col-current { background: #f4f4e6 !important; }
+    tr.r-total td.c-cur { background: #ebecdf !important; }
 
-    /* Military discount */
-    tr.row-military td {
-      background: #f5fff5 !important;
-      color: #1e7a1e !important;
-      font-size: 12px;
+    /* ── Military ───────────────────────────────────── */
+    tr.r-mil td {
+      background: var(--mil-bg) !important;
+      color: var(--mil-text) !important;
+      font-size: 11px;
       font-style: italic;
     }
-    tr.row-military td.col-label {
-      background: #f5fff5 !important;
-      color: #1e7a1e !important;
+    tr.r-mil td.td-lbl {
+      background: var(--mil-bg) !important;
+      color: var(--mil-text) !important;
     }
 
-    /* J&K Venmo row */
-    tr.row-venmo td {
-      background: #111 !important;
-      color: #fff !important;
+    /* ── Venmo ──────────────────────────────────────── */
+    tr.r-venmo td {
+      background: var(--venmo-bg) !important;
+      color: var(--venmo-text) !important;
       font-weight: 700;
-      font-size: 14px;
-      padding: 10px 22px;
-      border-top: 2px solid #444;
-      border-bottom: 2px solid #444;
+      font-size: 15px;
+      padding: 9px 12px;
+      border-top: 1px solid var(--venmo-bdr);
+      border-bottom: 1px solid var(--venmo-bdr);
     }
-    tr.row-venmo td.col-label {
-      background: #111 !important;
-      color: #fff !important;
-      border-right: 2px solid #333;
+    tr.r-venmo td.td-lbl {
+      background: var(--venmo-bg) !important;
+      color: var(--venmo-text) !important;
+      border-left: 3px solid var(--venmo-text);
+      border-right: 2px solid var(--venmo-bdr);
       font-size: 12px;
-      letter-spacing: 0;
+      font-weight: 600;
       text-transform: none;
+      letter-spacing: 0;
     }
-    tr.row-venmo td.col-current { background: #1c1c00 !important; }
+    tr.r-venmo td.c-cur { background: #dcfce7 !important; }
 
-    /* Spacer */
-    tr.row-spacer td {
-      background: #e6e6e6 !important;
-      height: 7px;
+    /* ── Spacer ─────────────────────────────────────── */
+    tr.r-gap td {
+      background: var(--bg) !important;
+      height: 5px;
       padding: 0;
       border: none;
     }
 
-    /* Account total */
-    tr.row-acct-total td {
-      background: #111 !important;
-      color: #fff !important;
+    /* ── Account total ──────────────────────────────── */
+    tr.r-acct td {
+      background: var(--acct-bg) !important;
+      color: var(--acct-text) !important;
       font-weight: 700;
-      font-size: 15px;
-      padding: 12px 22px;
-      border-top: 2px solid #555;
+      font-size: 14px;
+      padding: 10px 12px;
+      border-top: 1px solid #334155;
     }
-    tr.row-acct-total td.col-label {
-      background: #111 !important;
-      color: #fff !important;
-      border-right: 2px solid #333;
-      font-size: 13px;
+    tr.r-acct td.td-lbl {
+      background: var(--acct-bg) !important;
+      color: var(--acct-text) !important;
+      border-left: 3px solid #475569;
+      border-right: 2px solid #334155;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0;
     }
-    tr.row-acct-total td.col-current { background: #1c1c00 !important; }
+    tr.r-acct td.c-cur { background: #263548 !important; }
 
-    /* Value styles */
-    .v-neg   { color: #1a7a1a; }
-    .v-dash  { color: #ccc; }
-    small.si { font-size: 10px; color: #999; font-weight: 400; }
+    /* ── Value helpers ──────────────────────────────── */
+    .neg  { color: var(--neg); }
+    .dash { color: var(--text-3); }
+    small.si { font-size: 10px; color: var(--text-3); font-weight: 400; }
+    .p-phone { font-size: 10px; font-weight: 400; opacity: 0.5; letter-spacing: 0; text-transform: none; }
 
-    /* ── Device cards ─────────────────────────────────── */
-    .devices-section h2 {
+    /* ── Tooltip ────────────────────────────────────── */
+    [data-tip] { position: relative; cursor: help; }
+    [data-tip]::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      right: 0;
+      background: #1e293b;
+      color: #f8fafc;
+      padding: 7px 10px;
+      border-radius: 6px;
       font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #888;
-      margin-bottom: 12px;
+      font-weight: 400;
+      font-style: normal;
+      white-space: normal;
+      width: max-content;
+      max-width: 260px;
+      text-align: left;
+      line-height: 1.5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.12s;
+      z-index: 999;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+    [data-tip]:hover::after { opacity: 1; }
+    .tip-icon { font-size: 9px; color: var(--text-3); margin-left: 2px; }
+
+    /* ── Device cards ───────────────────────────────── */
+    .devices-section { margin-top: 4px; }
+    .devices-section h2 {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--text-3); margin-bottom: 10px;
     }
     .device-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(210px,1fr));
+      gap: 10px;
     }
     .device-card {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 16px 18px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
     }
-    .dc-person { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
-    .dc-device { font-size: 12px; color: #777; margin-bottom: 14px; }
-    .dc-bar-wrap { background: #e4e4e4; border-radius: 99px; height: 5px; margin-bottom: 8px; overflow: hidden; }
-    .dc-bar-fill { background: #111; border-radius: 99px; height: 5px; }
-    .dc-meta { display: flex; justify-content: space-between; font-size: 11px; color: #888; }
-    .dc-remaining { font-weight: 600; color: #444; }
+    .dc-person { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+    .dc-device  { font-size: 11px; color: var(--text-2); margin-bottom: 12px; }
+    .dc-bar  { background: var(--border); border-radius: 99px; height: 4px; margin-bottom: 6px; overflow: hidden; }
+    .dc-fill { background: var(--acct-bg); border-radius: 99px; height: 4px; }
+    .dc-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); }
+    .dc-rem  { font-weight: 600; color: var(--text-2); }
 
-    /* ── States ───────────────────────────────────────── */
-    .state-msg { text-align: center; padding: 60px 20px; color: #888; font-size: 14px; }
+    /* ── States ─────────────────────────────────────── */
+    .state-msg { text-align: center; padding: 60px; color: var(--text-2); }
+
+    /* ── Mobile ─────────────────────────────────────── */
+    @media (max-width: 640px) {
+      :root { --label-w: 100px; --col-min: 76px; }
+      .main { padding: 8px; }
+      thead th, tbody td { padding: 3px 8px; font-size: 11px; }
+      tr.r-venmo td { font-size: 13px; }
+    }
   </style>
 </head>
 <body>
 
 <header class="site-header">
   <h1>Verizon — Larson/Calderwood</h1>
-  <span class="sub">Family Plan · 223893379-00001</span>
+  <span class="sub">223893379-00001</span>
 </header>
 
 <div class="main">
-  <div id="state-loading" class="state-msg">Loading billing data…</div>
-  <div id="state-error"   class="state-msg" style="display:none">No billing data yet. Upload a PDF to inbox/ to get started.</div>
-
-  <div id="dashboard" style="display:none">
+  <div id="st-load" class="state-msg">Loading…</div>
+  <div id="st-err"  class="state-msg" style="display:none">No billing data yet. Upload a PDF to inbox/ to get started.</div>
+  <div id="dash"   style="display:none">
     <div class="table-wrap">
-      <table id="billing-table"></table>
+      <table id="tbl"></table>
     </div>
     <div class="devices-section">
       <h2>Device Payoff Progress</h2>
-      <div class="device-grid" id="device-grid"></div>
+      <div class="device-grid" id="dev-grid"></div>
     </div>
   </div>
 </div>
@@ -244,194 +314,198 @@
 <script>
 'use strict';
 
-const PERSONS = ['Jeff', 'Koko', 'Zach', 'Alex', 'Beth'];
+const PERSONS = ['Jeff','Koko','Zach','Alex','Beth'];
 
 const ROWS = [
-  { key: 'plan',                 label: 'Plan',               fmt: 'text'    },
-  { key: 'plan_base_cost',       label: 'Plan Base',          fmt: 'money'   },
-  { key: 'plan_rate_adjustment', label: 'Rate Adjustment',    fmt: 'money',  opt: true },
-  { key: 'autopay_discount',     label: 'Autopay Discount',   fmt: 'money'   },
-  { key: 'net_plan_cost',        label: 'Net Plan Cost',      fmt: 'money'   },
-  { key: 'device_payment',       label: 'Device Payment',     fmt: 'device', opt: true },
-  { key: 'trade_in_credit',      label: 'Trade-in Credit',    fmt: 'money',  opt: true },
-  { key: 'net_device_cost',      label: 'Net Device Cost',    fmt: 'money',  opt: true },
-  { key: 'one_time_amount',      label: 'One-time',           fmt: 'onetime',opt: true },
-  { key: 'surcharges',           label: 'Surcharges',         fmt: 'money'   },
-  { key: 'taxes_gov_fees',       label: 'Taxes & Gov. Fees',  fmt: 'money'   },
-  { key: 'total',                label: 'Total',              fmt: 'money',  bold: true },
-  { key: 'notes',                label: 'Notes',              fmt: 'text',   opt: true  },
+  { key:'plan',                 lab:'Plan',         fmt:'text'           },
+  { key:'plan_base_cost',       lab:'Plan Base',    fmt:'$'              },
+  { key:'plan_rate_adjustment', lab:'Rate Adj.',    fmt:'$',   opt:true  },
+  { key:'autopay_discount',     lab:'Autopay',      fmt:'$'              },
+  { key:'net_plan_cost',        lab:'Net Plan',     fmt:'$'              },
+  { key:'device_payment',       lab:'Device Pmt',   fmt:'dev', opt:true  },
+  { key:'trade_in_credit',      lab:'Trade-in',     fmt:'$',   opt:true  },
+  { key:'net_device_cost',      lab:'Net Device',   fmt:'$',   opt:true  },
+  { key:'one_time_amount',      lab:'One-time',     fmt:'ot',  opt:true  },
+  { key:'surcharges',           lab:'Surcharges',   fmt:'$'              },
+  { key:'taxes_gov_fees',       lab:'Taxes & Fees', fmt:'$'              },
+  { key:'total',                lab:'Total',        fmt:'$',   bold:true },
 ];
 
-/* ── formatters ──────────────────────────────────────────── */
-function fmtMoney(v, opt) {
-  if (v === null || v === undefined || (opt && v === 0))
-    return '<span class="v-dash">—</span>';
+/* ── formatters ──────────────────────────────────── */
+function money(v, opt) {
+  if (v == null || (opt && v === 0)) return '<span class="dash">—</span>';
   const a = Math.abs(v).toFixed(2);
-  return v < 0 ? `<span class="v-neg">($${a})</span>` : `$${a}`;
+  return v < 0 ? `<span class="neg">($${a})</span>` : `$${a}`;
 }
 
-function fmtText(v, opt) {
-  if (!v) return opt ? '<span class="v-dash">—</span>' : '';
-  return String(v);
-}
-
-function fmtDevice(line) {
-  const v = line.device_payment;
-  if (!v || v === 0) return '<span class="v-dash">—</span>';
-  const badge = (line.device_payment_number && line.device_payment_total)
-    ? ` <small class="si">${line.device_payment_number}/${line.device_payment_total}</small>` : '';
-  return `$${v.toFixed(2)}${badge}`;
-}
-
-function fmtOnetime(line) {
-  const v = line.one_time_amount;
-  if (!v || v === 0) return '<span class="v-dash">—</span>';
-  const a = Math.abs(v).toFixed(2);
-  const amt = v < 0 ? `<span class="v-neg">($${a})</span>` : `$${a}`;
-  const desc = line.one_time_description;
-  return desc ? `${amt}<br><small class="si">${desc}</small>` : amt;
-}
-
-function cellVal(row, line) {
-  if (!line) return '<span class="v-dash">—</span>';
-  if (row.fmt === 'text')    return fmtText(line[row.key], row.opt);
-  if (row.fmt === 'money')   return fmtMoney(line[row.key], row.opt);
-  if (row.fmt === 'device')  return fmtDevice(line);
-  if (row.fmt === 'onetime') return fmtOnetime(line);
+function fmtCell(row, line) {
+  if (!line) return '<span class="dash">—</span>';
+  const v = line[row.key];
+  if (row.fmt === 'text') return v || '<span class="dash">—</span>';
+  if (row.fmt === '$')    return money(v, row.opt);
+  if (row.fmt === 'dev') {
+    if (!v || v === 0) return '<span class="dash">—</span>';
+    const badge = (line.device_payment_number && line.device_payment_total)
+      ? ` <small class="si">${line.device_payment_number}/${line.device_payment_total}</small>` : '';
+    return `$${v.toFixed(2)}${badge}`;
+  }
+  if (row.fmt === 'ot') {
+    if (!v || v === 0) return '<span class="dash">—</span>';
+    const a   = Math.abs(v).toFixed(2);
+    const amt = v < 0 ? `<span class="neg">($${a})</span>` : `$${a}`;
+    const desc = line.one_time_description;
+    const tip  = desc ? ` data-tip="${desc.replace(/"/g,'&quot;')}"` : '';
+    const icon = desc ? '<span class="tip-icon">ⓘ</span>' : '';
+    return `<span${tip}>${amt}${icon}</span>`;
+  }
   return '—';
 }
 
-/* ── table builder ───────────────────────────────────────── */
-function buildTable(bills) {
-  const n = bills.length;
-  const latestIdx = n - 1;
-
-    function monthLabel(b) {
-    function fmt(dateStr) {
-      const d = new Date(dateStr + 'T12:00:00Z');
-      return d.toLocaleString('default', { month: 'short' }) + ' ' + d.getUTCDate();
-    }
-    return fmt(b.billing_period_start) + ' – ' + fmt(b.billing_period_end);
+/* ── column label ────────────────────────────────── */
+function colLabel(b) {
+  function f(s) {
+    const d = new Date(s + 'T12:00:00Z');
+    return d.toLocaleString('default', { month:'short' }) + ' ' + d.getUTCDate();
   }
-  // class attr helper
-  function cc(i, base) {
-    const classes = [base, i === latestIdx ? 'col-current' : ''].filter(Boolean).join(' ');
-    return classes ? ` class="${classes}"` : '';
+  return f(b.billing_period_start) + ' – ' + f(b.billing_period_end);
+}
+
+function last4(phone) {
+  return phone ? phone.replace(/\D/g,'').slice(-4) : '';
+}
+
+/* ── table ───────────────────────────────────────── */
+function buildTable(bills) {
+  const n    = bills.length;
+  const last = n - 1;
+  const gl   = (b, p) => (b.lines||[]).find(l => l.person === p) || null;
+
+  const phones = {};
+  PERSONS.forEach(p => {
+    const ln = gl(bills[last], p);
+    phones[p] = ln ? last4(ln.phone) : '';
+  });
+
+  function dc(i, extra) {
+    const cls = [extra, i === last ? 'c-cur' : ''].filter(Boolean).join(' ');
+    return cls ? ` class="${cls}"` : '';
   }
 
   let h = '<thead><tr>';
-  h += '<th class="col-label">Line Item</th>';
-  bills.forEach((b, i) => h += `<th${cc(i, '')}>${monthLabel(b)}</th>`);
+  h += '<th class="th-lbl">Line Item</th>';
+  bills.forEach((b,i) => h += `<th class="th-dat${i===last?' c-cur':''}">${colLabel(b)}</th>`);
   h += '</tr></thead><tbody>';
 
-  const getLine = (bill, person) => (bill.lines || []).find(l => l.person === person) || null;
-
-  function spacer() {
-    let r = '<tr class="row-spacer"><td class="col-label"></td>';
-    for (let i = 0; i < n; i++) r += '<td></td>';
+  function gap() {
+    let r = '<tr class="r-gap"><td class="td-lbl"></td>';
+    for (let i=0;i<n;i++) r += '<td></td>';
     return r + '</tr>';
   }
 
   PERSONS.forEach((person, pi) => {
-    if (pi > 0) h += spacer();
+    if (pi > 0) h += gap();
 
-    // Person header
-    h += '<tr class="row-person">';
-    h += `<td class="col-label">${person}</td>`;
-    bills.forEach((b, i) => {
-      const line = getLine(b, person);
-      const phone = line ? `<small class="si">${line.phone}</small>` : '';
-      h += `<td${cc(i, '')}>${phone}</td>`;
-    });
+    /* person header */
+    h += '<tr class="r-person">';
+    const ph = phones[person] ? ` <span class="p-phone">···${phones[person]}</span>` : '';
+    h += `<td class="td-lbl">${person}${ph}</td>`;
+    bills.forEach((_,i) => h += `<td${dc(i,'')}></td>`);
     h += '</tr>';
 
-    // Data rows
+    /* data rows */
     ROWS.forEach(row => {
-      h += `<tr${row.bold ? ' class="row-total"' : ''}>`;
-      h += `<td class="col-label">${row.label}</td>`;
-      bills.forEach((b, i) => {
-        const line = getLine(b, person);
-        const v = cellVal(row, line);
-        h += `<td${cc(i, '')}>${row.bold ? `<strong>${v}</strong>` : v}</td>`;
+      h += row.bold ? '<tr class="r-total">' : '<tr>';
+      h += `<td class="td-lbl">${row.lab}</td>`;
+      bills.forEach((b,i) => {
+        const line = gl(b, person);
+        let val = fmtCell(row, line);
+        if (row.bold && line && line.notes) {
+          const t = line.notes.replace(/"/g,'&quot;');
+          val = `<span data-tip="${t}">${val}<span class="tip-icon"> ⚠</span></span>`;
+        }
+        const inner = row.bold ? `<strong>${val}</strong>` : val;
+        h += `<td${dc(i,'')}>${inner}</td>`;
       });
       h += '</tr>';
     });
 
-    // Military discount — Alex only
+    /* military — Alex only */
     if (person === 'Alex') {
-      h += '<tr class="row-military"><td class="col-label">★ Military Discount</td>';
-      bills.forEach((b, i) => {
+      h += '<tr class="r-mil"><td class="td-lbl">★ Military Discount</td>';
+      bills.forEach((b,i) => {
         const d = Math.abs(b.military_discount ?? 20).toFixed(2);
-        h += `<td${cc(i, '')}><span class="v-neg">($${d})</span></td>`;
+        h += `<td${dc(i,'')}><span class="neg">($${d})</span></td>`;
       });
       h += '</tr>';
     }
 
-    // J&K Venmo — after Koko
+    /* J&K Venmo — after Koko */
     if (person === 'Koko') {
-      h += '<tr class="row-venmo"><td class="col-label">💸 J&amp;K Venmo to Zach</td>';
-      bills.forEach((b, i) => {
-        const j = getLine(b, 'Jeff'), k = getLine(b, 'Koko');
-        const total = ((j?.total ?? 0) + (k?.total ?? 0)).toFixed(2);
-        h += `<td${cc(i, '')}>$${total}</td>`;
+      h += '<tr class="r-venmo"><td class="td-lbl">💸 J&amp;K Venmo to Zach</td>';
+      bills.forEach((b,i) => {
+        const j = gl(b,'Jeff'), k = gl(b,'Koko');
+        const t = ((j?.total ?? 0) + (k?.total ?? 0)).toFixed(2);
+        h += `<td${dc(i,'')}><strong>$${t}</strong></td>`;
       });
       h += '</tr>';
     }
   });
 
-  // Account total
-  h += spacer();
-  h += '<tr class="row-acct-total"><td class="col-label">Account Total</td>';
-  bills.forEach((b, i) => {
-    h += `<td${cc(i, '')}><strong>$${parseFloat(b.account_total).toFixed(2)}</strong></td>`;
+  /* account total */
+  h += gap();
+  h += '<tr class="r-acct"><td class="td-lbl">Account Total</td>';
+  bills.forEach((b,i) => {
+    h += `<td${dc(i,'')}><strong>$${parseFloat(b.account_total).toFixed(2)}</strong></td>`;
   });
   h += '</tr></tbody>';
 
-  document.getElementById('billing-table').innerHTML = h;
+  document.getElementById('tbl').innerHTML = h;
+
+  /* snap scroll to rightmost (newest) column */
+  const wrap = document.querySelector('.table-wrap');
+  if (wrap) wrap.scrollLeft = wrap.scrollWidth;
 }
 
-/* ── device cards ────────────────────────────────────────── */
-function buildDeviceCards(bills) {
+/* ── device cards ────────────────────────────────── */
+function buildDevices(bills) {
   const latest = bills[bills.length - 1];
   if (!latest) return;
-  const grid = document.getElementById('device-grid');
-  const lines = (latest.lines || []).filter(l => l.device_payment && l.device_payment > 0);
+  const lines = (latest.lines||[]).filter(l => l.device_payment && l.device_payment > 0);
+  const grid  = document.getElementById('dev-grid');
   if (!lines.length) {
-    grid.innerHTML = '<p style="color:#aaa;font-size:12px">No active device payments.</p>';
+    grid.innerHTML = '<p style="color:#94a3b8;font-size:12px">No active device payments.</p>';
     return;
   }
   grid.innerHTML = lines.map(l => {
     const pct = ((l.device_payment_number / l.device_payment_total) * 100).toFixed(1);
-    const rem = l.device_balance_remaining != null ? '$' + parseFloat(l.device_balance_remaining).toFixed(2) : '—';
+    const rem = l.device_balance_remaining != null
+      ? '$' + parseFloat(l.device_balance_remaining).toFixed(2) : '—';
     return `<div class="device-card">
       <div class="dc-person">${l.person}</div>
       <div class="dc-device">${l.device}</div>
-      <div class="dc-bar-wrap"><div class="dc-bar-fill" style="width:${Math.min(parseFloat(pct),100)}%"></div></div>
+      <div class="dc-bar"><div class="dc-fill" style="width:${Math.min(parseFloat(pct),100)}%"></div></div>
       <div class="dc-meta">
-        <span>Payment ${l.device_payment_number} of ${l.device_payment_total} &nbsp;·&nbsp; ${pct}%</span>
-        <span class="dc-remaining">${rem} left</span>
+        <span>Pmt ${l.device_payment_number} / ${l.device_payment_total} · ${pct}%</span>
+        <span class="dc-rem">${rem} left</span>
       </div>
     </div>`;
   }).join('');
 }
 
-/* ── bootstrap ───────────────────────────────────────────── */
+/* ── bootstrap ───────────────────────────────────── */
 fetch('data/data.json')
-  .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+  .then(r => { if (!r.ok) throw 0; return r.json(); })
   .then(data => {
-    document.getElementById('state-loading').style.display = 'none';
-    const bills = (data.bills || []).slice().reverse(); // oldest first
-    if (!bills.length) {
-      document.getElementById('state-error').style.display = 'block';
-      return;
-    }
-    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('st-load').style.display = 'none';
+    const bills = (data.bills||[]).slice().reverse();
+    if (!bills.length) { document.getElementById('st-err').style.display='block'; return; }
+    document.getElementById('dash').style.display = 'block';
     buildTable(bills);
-    buildDeviceCards(bills);
+    buildDevices(bills);
   })
   .catch(() => {
-    document.getElementById('state-loading').style.display = 'none';
-    document.getElementById('state-error').style.display = 'block';
+    document.getElementById('st-load').style.display = 'none';
+    document.getElementById('st-err').style.display  = 'block';
   });
 </script>
 </body>
