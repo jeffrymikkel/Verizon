@@ -306,14 +306,12 @@ function buildTable(bills) {
   const n = bills.length;
   const latestIdx = n - 1;
 
-   function monthLabel(b) {
-    if (b.bill_month) {
-      const parts = b.bill_month.split(' ');
-      const map = {January:'Jan',February:'Feb',March:'Mar',April:'Apr',May:'May',June:'Jun',July:'Jul',August:'Aug',September:'Sep',October:'Oct',November:'Nov',December:'Dec'};
-      return (map[parts[0]] || parts[0].slice(0,3)) + " '" + (parts[1] || '').slice(2);
+    function monthLabel(b) {
+    function fmt(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00Z');
+      return d.toLocaleString('default', { month: 'short' }) + ' ' + d.getUTCDate();
     }
-    const d = new Date(b.billing_period_start + 'T12:00:00Z');
-    return d.toLocaleString('default', { month: 'short' }) + " '" + String(d.getFullYear()).slice(2);
+    return fmt(b.billing_period_start) + ' – ' + fmt(b.billing_period_end);
   }
   // class attr helper
   function cc(i, base) {
