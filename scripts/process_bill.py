@@ -180,36 +180,36 @@ def main():
             model="claude-sonnet-4-6",
             max_tokens=4000,
             system=SYSTEM_PROMPT,
-            messages=[{
-                "role": "user",
-                "content": [
-                    {
-                        "type": "document",
-                        "source": {
-                            "type": "base64",
-                            "media_type": "application/pdf",
-                            "data": pdf_b64
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "document",
+                            "source": {
+                                "type": "base64",
+                                "media_type": "application/pdf",
+                                "data": pdf_b64
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": "Extract all billing data from this Verizon bill and return it as JSON. Return ONLY valid JSON, nothing else."
                         }
-                    },
-                    {
-                        "type": "text",
-                        "text": "Extract all billing data from this Verizon bill and return it as JSON. Return ONLY valid JSON, nothing else."
-                    }
-                ]
-            }]
+                    ]
+                },
+                {
+                    "role": "assistant",
+                    "content": "{"
+                }
+            ]
         )
     except Exception as e:
         print(f"API error: {e}")
         sys.exit(1)
 
-    # Parse JSON response
-    raw = response.content[0].text.strip()
-    # Strip markdown fences if present
-    if raw.startswith('```'):
-        lines = raw.split('\n')
-        raw = '\n'.join(lines[1:])
-        if raw.endswith('```'):
-            raw = raw[:-3].strip()
+    # Parse JSON response — prepend the { we used as pre-fill
+    raw = "{" + response.content[0].text.strip()
 
     try:
         bill = json.loads(raw)
