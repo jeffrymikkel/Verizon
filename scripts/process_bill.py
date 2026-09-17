@@ -9,6 +9,7 @@ Commits and pushes changes to GitHub automatically.
 import os
 import sys
 import json
+import re
 import base64
 import subprocess
 import glob
@@ -83,7 +84,8 @@ sum(all line totals) + military_discount ≈ account_total (within $0.02)
 If not, double-check your extraction before returning.
 
 OUTPUT FORMAT:
-Return ONLY valid JSON. No markdown fences, no explanation, no text before or after.
+Your response must contain ONLY a valid JSON object — no explanation, no markdown fences, no text before or after the JSON.
+Start your response with { and end with }.
 Exactly match this schema:
 
 {
@@ -155,6 +157,37 @@ def write_status(month, success, error=None, invoice=None):
 
     return status_path
 
+# ── Helper: extract JSON from response ───────────────────────────────────────
+
+def extract_json(text):
+    """Extract JSON object from text even if wrapped in markdown or prose."""
+    text = text.strip()
+
+    # Try parsing as-is first
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # Strip markdown fences
+    fence_match = re.search(r'```(?:json)?\s*([\s\S]*?)```', text)
+    if fence_match:
+        try:
+            return json.loads(fence_match.group(1).strip())
+        except json.JSONDecodeError:
+            pass
+
+    # Find outermost { ... } in the text
+    start = text.find('{')
+    end = text.rfind('}')
+    if start != -1 and end != -1 and end > start:
+        try:
+            return json.loads(text[start:end+1])
+        except json.JSONDecodeError:
+            pass
+
+    return None
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -194,13 +227,9 @@ def main():
                         },
                         {
                             "type": "text",
-                            "text": "Extract all billing data from this Verizon bill and return it as JSON. Return ONLY valid JSON, nothing else."
+                            "text": "Extract all billing data from this Verizon bill. Return ONLY a valid JSON object. Start your response with { and end with }. No other text."
                         }
                     ]
-                },
-                {
-                    "role": "assistant",
-                    "content": "{"
                 }
             ]
         )
@@ -208,14 +237,15 @@ def main():
         print(f"API error: {e}")
         sys.exit(1)
 
-    # Parse JSON response — prepend the { we used as pre-fill
-    raw = "{" + response.content[0].text.strip()
+    # Parse JSON response
+    raw = response.content[0].text
+    print(f"Raw response (first 200 chars): {raw[:200]}")
 
-    try:
-        bill = json.loads(raw)
-    except json.JSONDecodeError as e:
-        print(f"JSON parse error: {e}")
-        print(f"Raw response: {raw[:500]}")
+    bill = extract_json(raw)
+
+    if bill is None:
+        print(f"JSON parse error — could not extract JSON from response")
+        print(f"Full raw response: {raw[:1000]}")
         sys.exit(1)
 
     month = bill.get('bill_month', 'Unknown')
