@@ -8,193 +8,245 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #efefef;
-      color: #1a1a1a;
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Roboto, sans-serif;
+      background: #F5F5F7;
+      color: #1D1D1F;
       font-size: 13px;
       min-height: 100vh;
     }
 
-    /* ── Header ── */
+    /* ── Site header ── */
     .site-header {
-      background: #111;
-      color: #fff;
-      padding: 16px 24px;
-      display: flex;
-      align-items: baseline;
-      gap: 14px;
+      background: rgba(255,255,255,0.9);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 14px 28px;
       position: sticky;
       top: 0;
       z-index: 100;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
     }
-    .site-header h1 { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
-    .site-header .sub { font-size: 11px; color: #666; }
+    .site-header h1 { font-size: 15px; font-weight: 600; color: #1D1D1F; letter-spacing: -0.2px; }
+    .site-header .sub { font-size: 12px; color: #6E6E73; }
 
     /* ── Layout ── */
-    .main { padding: 20px; }
+    .main { padding: 24px 28px; }
 
-    /* ── Table ── */
+    /* ── Table card ── */
     .table-wrap {
       overflow-x: auto;
       background: #fff;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,0.08);
       margin-bottom: 24px;
     }
 
     table { border-collapse: collapse; width: max-content; min-width: 100%; }
 
-    thead tr th {
-      background: #111;
-      color: #fff;
-      padding: 11px 22px;
+    /* Column headers */
+    thead th {
+      background: #F5F5F7;
+      color: #6E6E73;
+      padding: 10px 20px;
       text-align: right;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 600;
       white-space: nowrap;
-      letter-spacing: 0.4px;
-      border-right: 1px solid #2a2a2a;
+      border-bottom: 1px solid #E5E5EA;
+      border-right: 1px solid #E5E5EA;
+      line-height: 1.4;
     }
-    thead tr th.col-label {
+    thead th small {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: #9A9A9F;
+      margin-top: 2px;
+    }
+    thead th.col-label {
       text-align: left;
-      min-width: 190px;
+      min-width: 192px;
       position: sticky;
       left: 0;
       z-index: 20;
-      background: #111;
-      border-right: 2px solid #383838;
+      background: #F5F5F7;
+      border-right: 1px solid #D2D2D7;
+      color: #9A9A9F;
+      font-weight: 400;
+      font-size: 10px;
     }
-    thead tr th.col-current { background: #1e1e1e; }
+    thead th.col-current { background: #EBF3FF; color: #0066CC; }
+    thead th.col-current small { color: #5DA0E0; }
 
+    /* Body cells */
     tbody td {
-      padding: 4px 22px;
+      padding: 5px 20px;
       text-align: right;
       white-space: nowrap;
-      border-right: 1px solid #ebebeb;
-      border-bottom: 1px solid #f5f5f5;
-      color: #333;
+      border-right: 1px solid #F2F2F7;
+      border-bottom: 1px solid #F2F2F7;
+      color: #1D1D1F;
       background: #fff;
+      font-size: 12px;
     }
     tbody td.col-label {
       text-align: left;
-      color: #666;
+      color: #6E6E73;
       font-size: 12px;
       position: sticky;
       left: 0;
       z-index: 10;
       background: #fff;
-      border-right: 2px solid #e2e2e2;
-      padding-left: 26px;
+      border-right: 1px solid #D2D2D7;
+      padding-left: 22px;
     }
-    tbody tr:nth-child(even) td           { background: #fafafa; }
-    tbody tr:nth-child(even) td.col-label { background: #fafafa; }
-    tbody td.col-current                  { background: #fffef4 !important; }
+    tbody td.col-current { background: #FAFCFF; }
 
-    /* Person header */
+    /* Person section header */
     tr.row-person td {
-      background: #1e1e1e !important;
-      color: #fff !important;
-      font-weight: 700;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      padding: 7px 22px;
-      border-bottom: none;
+      background: #F9F9FB !important;
+      color: #6E6E73 !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      padding: 8px 20px 5px !important;
+      border-top: 1px solid #E5E5EA !important;
+      border-bottom: 1px solid #E5E5EA !important;
     }
     tr.row-person td.col-label {
-      background: #1e1e1e !important;
-      color: #fff !important;
-      border-right: 2px solid #333;
+      background: #F9F9FB !important;
+      color: #1D1D1F !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      border-right: 1px solid #D2D2D7 !important;
     }
-    tr.row-person td.col-current { background: #2a2a2a !important; }
+    tr.row-person:first-child td { border-top: none !important; }
+    tr.row-person td.col-current { background: #EBF3FF !important; }
 
     /* Total row */
     tr.row-total td {
-      font-weight: 700 !important;
-      color: #111 !important;
-      background: #f0f0f0 !important;
-      border-top: 1px solid #d4d4d4;
-      font-size: 13px;
+      font-weight: 600 !important;
+      color: #1D1D1F !important;
+      font-size: 13px !important;
+      border-top: 1px solid #D2D2D7 !important;
+      padding-top: 7px !important;
+      padding-bottom: 7px !important;
+      background: #fff !important;
     }
-    tr.row-total td.col-label {
-      color: #111 !important;
-      background: #f0f0f0 !important;
-    }
-    tr.row-total td.col-current { background: #f4f4e6 !important; }
+    tr.row-total td.col-label { color: #1D1D1F !important; }
+    tr.row-total td.col-current { background: #FAFCFF !important; }
 
     /* Military discount */
     tr.row-military td {
-      background: #f5fff5 !important;
-      color: #1e7a1e !important;
-      font-size: 12px;
-      font-style: italic;
+      background: #F5FFF8 !important;
+      color: #248A3D !important;
+      font-size: 12px !important;
     }
     tr.row-military td.col-label {
-      background: #f5fff5 !important;
-      color: #1e7a1e !important;
+      background: #F5FFF8 !important;
+      color: #248A3D !important;
     }
-    tr.row-military td.col-current { background: #edfced !important; }
+    tr.row-military td.col-current { background: #F0FFF4 !important; }
 
     /* J&K Venmo */
     tr.row-venmo td {
-      background: #111 !important;
-      color: #fff !important;
-      font-weight: 700;
-      font-size: 14px;
-      padding: 10px 22px;
-      border-top: 2px solid #444;
-      border-bottom: 2px solid #444;
+      background: #EBF3FF !important;
+      color: #0066CC !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      padding: 10px 20px !important;
+      border-top: 1px solid #C4DCFF !important;
+      border-bottom: 1px solid #C4DCFF !important;
     }
     tr.row-venmo td.col-label {
-      background: #111 !important;
-      color: #fff !important;
-      border-right: 2px solid #333;
-      font-size: 12px;
-      letter-spacing: 0;
-      text-transform: none;
+      background: #EBF3FF !important;
+      color: #0066CC !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      border-right: 1px solid #C4DCFF !important;
     }
-    tr.row-venmo td.col-current { background: #1c1c00 !important; }
 
     /* Spacer */
     tr.row-spacer td {
-      background: #e6e6e6 !important;
-      height: 7px;
+      background: #F5F5F7 !important;
+      height: 6px;
       padding: 0;
       border: none;
     }
 
     /* Account total */
     tr.row-acct-total td {
-      background: #111 !important;
-      color: #fff !important;
-      font-weight: 700;
-      font-size: 15px;
-      padding: 12px 22px;
-      border-top: 2px solid #555;
+      background: #F5F5F7 !important;
+      color: #1D1D1F !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      padding: 10px 20px !important;
+      border-top: 1px solid #D2D2D7 !important;
     }
     tr.row-acct-total td.col-label {
-      background: #111 !important;
-      color: #fff !important;
-      border-right: 2px solid #333;
-      font-size: 13px;
+      background: #F5F5F7 !important;
+      color: #1D1D1F !important;
+      border-right: 1px solid #D2D2D7 !important;
     }
-    tr.row-acct-total td.col-current { background: #1c1c00 !important; }
+    tr.row-acct-total td.col-current {
+      background: #EBF3FF !important;
+      color: #0066CC !important;
+    }
 
     /* ── Value styles ── */
-    .v-neg    { color: #1a7a1a; }
-    .v-dash   { color: #ccc; }
-    .v-orange { color: #d4700a; }
+    .v-neg    { color: #248A3D; }
+    .v-dash   { color: #C7C7CC; }
+    .v-orange { color: #BF5700; }
     .v-net    { font-weight: 600; }
-    small.si  { font-size: 10px; color: #999; font-weight: 400; }
 
-    /* ── Device cards ── */
+    /* ── Info button (hover tooltip trigger) ── */
+    .info-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid #C7C7CC;
+      color: #9A9A9F;
+      font-size: 9px;
+      font-style: italic;
+      font-weight: 700;
+      cursor: default;
+      margin-left: 5px;
+      vertical-align: middle;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .info-btn:hover {
+      border-color: #0066CC;
+      color: #0066CC;
+    }
+
+    /* ── Global floating tooltip (positioned via JS, lives on body) ── */
+    #global-tip {
+      position: fixed;
+      display: none;
+      background: #1D1D1F;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: 6px 10px;
+      border-radius: 7px;
+      white-space: pre;
+      z-index: 9999;
+      pointer-events: none;
+      max-width: 300px;
+    }
+
+    /* ── Device section ── */
     .devices-section h2 {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: #888;
+      letter-spacing: 0.06em;
+      color: #6E6E73;
       margin-bottom: 12px;
     }
     .device-grid {
@@ -204,23 +256,24 @@
     }
     .device-card {
       background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 14px;
       padding: 16px 18px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
-    .dc-person   { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
-    .dc-device   { font-size: 12px; color: #777; margin-bottom: 14px; }
-    .dc-bar-wrap { background: #e4e4e4; border-radius: 99px; height: 5px; margin-bottom: 8px; overflow: hidden; }
-    .dc-bar-fill { background: #111; border-radius: 99px; height: 5px; }
-    .dc-meta     { display: flex; justify-content: space-between; font-size: 11px; color: #888; }
-    .dc-remaining { font-weight: 600; color: #444; }
+    .dc-person    { font-weight: 600; font-size: 15px; color: #1D1D1F; margin-bottom: 2px; }
+    .dc-device    { font-size: 12px; color: #6E6E73; margin-bottom: 14px; }
+    .dc-bar-wrap  { background: #E5E5EA; border-radius: 99px; height: 5px; margin-bottom: 8px; overflow: hidden; }
+    .dc-bar-fill  { background: #0066CC; border-radius: 99px; height: 5px; }
+    .dc-meta      { display: flex; justify-content: space-between; font-size: 11px; color: #6E6E73; }
+    .dc-remaining { color: #1D1D1F; font-weight: 600; }
 
     /* ── States ── */
-    .state-msg { text-align: center; padding: 60px 20px; color: #888; font-size: 14px; }
+    .state-msg { text-align: center; padding: 60px 20px; color: #6E6E73; font-size: 14px; }
   </style>
 </head>
 <body>
+
+<div id="global-tip"></div>
 
 <header class="site-header">
   <h1>Verizon — Larson/Calderwood</h1>
@@ -229,7 +282,7 @@
 
 <div class="main">
   <div id="state-loading" class="state-msg">Loading billing data…</div>
-  <div id="state-error"   class="state-msg" style="display:none">No billing data yet. Upload a PDF to inbox/ to get started.</div>
+  <div id="state-error" class="state-msg" style="display:none">No billing data yet. Upload a PDF to inbox/ to get started.</div>
 
   <div id="dashboard" style="display:none">
     <div class="table-wrap">
@@ -249,18 +302,60 @@ const PERSONS = ['Jeff', 'Koko', 'Zach', 'Alex', 'Beth'];
 
 const ROWS = [
   { key: 'plan',                 label: 'Plan',               fmt: 'text'          },
-  { key: 'plan_base_cost',       label: 'Plan Base',          fmt: 'money'         },
-  { key: 'plan_rate_adjustment', label: 'Rate Adj',           fmt: 'money', opt: true },
-  { key: 'autopay_discount',     label: 'Autopay Discount',   fmt: 'money'         },
-  { key: 'net_plan_cost',        label: 'Net Plan Cost',      fmt: 'money'         },
-  { key: 'device_combo',         label: 'Device Payment',     fmt: 'device_combo', opt: true },
+  { key: 'plan_base_cost',       label: 'Plan base',          fmt: 'money'         },
+  { key: 'plan_rate_adjustment', label: 'Rate adj',           fmt: 'money', opt: true },
+  { key: 'autopay_discount',     label: 'Autopay discount',   fmt: 'money'         },
+  { key: 'net_plan_cost',        label: 'Net plan cost',      fmt: 'money'         },
+  { key: 'device_combo',         label: 'Device payment',     fmt: 'device_combo', opt: true },
   { key: 'one_time_amount',      label: 'One-time',           fmt: 'onetime',      opt: true },
-  { key: 'taxes_surcharges',     label: 'Taxes & Surcharges', fmt: 'taxes'         },
+  { key: 'taxes_surcharges',     label: 'Taxes & surcharges', fmt: 'taxes'         },
   // military discount injected here for Alex only (see buildTable)
   { key: 'total',                label: 'Total',              fmt: 'money',        bold: true },
 ];
 
-/* ── formatters ── */
+/* ── Floating tooltip (appended to body so it escapes table overflow) ── */
+const tip = document.getElementById('global-tip');
+
+document.addEventListener('mouseover', e => {
+  const btn = e.target.closest('.info-btn');
+  if (!btn) return;
+  const text = btn.dataset.tip;
+  if (!text) return;
+  tip.textContent = text;
+  tip.style.display = 'block';
+  placeTip(btn);
+});
+
+document.addEventListener('mouseout', e => {
+  if (e.target.closest('.info-btn')) tip.style.display = 'none';
+});
+
+function placeTip(el) {
+  const r  = el.getBoundingClientRect();
+  const tw = tip.offsetWidth;
+  const th = tip.offsetHeight;
+  let left = r.right - tw;
+  let top  = r.top - th - 8;
+  if (left < 6) left = 6;
+  if (top  < 6) top  = r.bottom + 8;
+  tip.style.left = left + 'px';
+  tip.style.top  = top  + 'px';
+}
+
+/* ── Column header label ── */
+function monthLabel(b) {
+  const start = new Date(b.billing_period_start + 'T12:00:00Z');
+  const end   = b.billing_period_end
+    ? new Date(b.billing_period_end + 'T12:00:00Z')
+    : new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 1, 6));
+  const mo   = { month: 'short', timeZone: 'UTC' };
+  const full = { month: 'short', day: 'numeric', timeZone: 'UTC' };
+  const label = start.toLocaleString('en-US', mo) + " '" + String(start.getUTCFullYear()).slice(2);
+  const range = start.toLocaleDateString('en-US', full) + ' – ' + end.toLocaleDateString('en-US', full);
+  return { label, range };
+}
+
+/* ── Formatters ── */
 function fmtMoney(v, opt) {
   if (v === null || v === undefined || (opt && v === 0))
     return '<span class="v-dash">—</span>';
@@ -273,23 +368,22 @@ function fmtText(v, opt) {
   return String(v);
 }
 
-// Combined device row: "$36.11 −$23.05 = $13.06" (trade-in green, net semi-bold)
-// No payment-number badge here — that lives in the device cards below.
+// Net device cost is the number; breakdown lives in an info tooltip
 function fmtDeviceCombo(line) {
   const pmt = line?.device_payment;
   if (!pmt || pmt === 0) return '<span class="v-dash">—</span>';
-  const credit = line?.trade_in_credit;  // stored negative, e.g. -23.05
+  const credit = line?.trade_in_credit;
   const net    = line?.net_device_cost;
   if (credit && credit !== 0) {
     const creditAmt = Math.abs(credit).toFixed(2);
     const netAmt    = (net != null ? Math.abs(net) : Math.abs(pmt + credit)).toFixed(2);
-    return `$${pmt.toFixed(2)} <span class="v-neg">−$${creditAmt}</span> = <span class="v-net">$${netAmt}</span>`;
+    const tipText   = `$${pmt.toFixed(2)} device payment\u2212$${creditAmt} trade\u2011in credit`;
+    return `<span class="v-net">$${netAmt}</span><span class="info-btn" data-tip="${tipText}">i</span>`;
   }
-  // No trade-in — just show payment amount, still semi-bold as the "net"
   return `<span class="v-net">$${pmt.toFixed(2)}</span>`;
 }
 
-// Positive one-time = orange; negative = green (credit/refund)
+// Positive one-time = orange; negative = green; description in tooltip
 function fmtOnetime(line) {
   const v = line?.one_time_amount;
   if (!v || v === 0) return '<span class="v-dash">—</span>';
@@ -298,10 +392,14 @@ function fmtOnetime(line) {
     ? `<span class="v-neg">($${a})</span>`
     : `<span class="v-orange">$${a}</span>`;
   const desc = line?.one_time_description;
-  return desc ? `${amt}<br><small class="si">${desc}</small>` : amt;
+  if (desc) {
+    const safe = desc.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    return `${amt}<span class="info-btn" data-tip="${safe}">i</span>`;
+  }
+  return amt;
 }
 
-// Surcharges + taxes combined into one number
+// Surcharges + taxes_gov_fees combined
 function fmtTaxes(line) {
   const s = line?.surcharges     ?? 0;
   const t = line?.taxes_gov_fees ?? 0;
@@ -320,23 +418,20 @@ function cellVal(row, line) {
   return '—';
 }
 
-/* ── table builder ── */
+/* ── Table builder ── */
 function buildTable(bills) {
   const n         = bills.length;
   const latestIdx = n - 1;
-
-  function monthLabel(b) {
-    const d = new Date(b.billing_period_start + 'T12:00:00Z');
-    return d.toLocaleString('default', { month: 'short' }) + " '" + String(d.getFullYear()).slice(2);
-  }
 
   function cc(i) {
     return i === latestIdx ? ' class="col-current"' : '';
   }
 
-  // Header
-  let h = '<thead><tr><th class="col-label">Line Item</th>';
-  bills.forEach((b, i) => h += `<th${cc(i)}>${monthLabel(b)}</th>`);
+  let h = '<thead><tr><th class="col-label">Line item</th>';
+  bills.forEach((b, i) => {
+    const { label, range } = monthLabel(b);
+    h += `<th${cc(i)}>${label}<small>${range}</small></th>`;
+  });
   h += '</tr></thead><tbody>';
 
   const getLine = (bill, person) =>
@@ -351,11 +446,11 @@ function buildTable(bills) {
   PERSONS.forEach((person, pi) => {
     if (pi > 0) h += spacer();
 
-    // Person header — name + last-4 of phone in label column
+    // Person header with last-4 of phone
     const refLine = getLine(bills[latestIdx], person);
     const phone   = refLine?.phone ?? '';
     const last4   = phone
-      ? ` <small class="si" style="font-weight:400;letter-spacing:0;text-transform:none">···${phone.slice(-4)}</small>`
+      ? ` <small style="font-size:10px;color:#9A9A9F;font-weight:400;letter-spacing:0;text-transform:none">···${phone.slice(-4)}</small>`
       : '';
     h += `<tr class="row-person"><td class="col-label">${person}${last4}</td>`;
     bills.forEach((b, i) => h += `<td${cc(i)}></td>`);
@@ -367,7 +462,7 @@ function buildTable(bills) {
 
       // For Alex: inject military discount row immediately before Total
       if (person === 'Alex' && isTotalRow) {
-        h += '<tr class="row-military"><td class="col-label">★ Military Discount</td>';
+        h += '<tr class="row-military"><td class="col-label">★ Military discount</td>';
         bills.forEach((b, i) => {
           const d = Math.abs(b.military_discount ?? 20).toFixed(2);
           h += `<td${cc(i)}><span class="v-neg">($${d})</span></td>`;
@@ -381,11 +476,9 @@ function buildTable(bills) {
         const line = getLine(b, person);
         let v;
         if (person === 'Alex' && isTotalRow) {
-          // Alex's displayed total = line total minus military discount
-          // military_discount is stored as a negative number (e.g. -20)
           const raw = line?.total ?? 0;
           const mil = b.military_discount ?? -20;
-          const adj = raw + mil;  // 52.64 + (-20) = 32.64
+          const adj = raw + mil;
           v = `<strong>$${Math.max(adj, 0).toFixed(2)}</strong>`;
         } else {
           v = cellVal(row, line);
@@ -408,9 +501,9 @@ function buildTable(bills) {
     }
   });
 
-  // Account total — matches what hits Zach's bank
+  // Account total
   h += spacer();
-  h += '<tr class="row-acct-total"><td class="col-label">Account Total</td>';
+  h += '<tr class="row-acct-total"><td class="col-label">Account total</td>';
   bills.forEach((b, i) => {
     h += `<td${cc(i)}><strong>$${parseFloat(b.account_total).toFixed(2)}</strong></td>`;
   });
@@ -418,19 +511,19 @@ function buildTable(bills) {
 
   document.getElementById('billing-table').innerHTML = h;
 
-  // Scroll to newest (rightmost) column on load
+  // Scroll to newest (rightmost) column
   const wrap = document.querySelector('.table-wrap');
   if (wrap) setTimeout(() => { wrap.scrollLeft = wrap.scrollWidth; }, 0);
 }
 
-/* ── device cards ── */
+/* ── Device payoff cards ── */
 function buildDeviceCards(bills) {
   const latest = bills[bills.length - 1];
   if (!latest) return;
   const grid  = document.getElementById('device-grid');
   const lines = (latest.lines || []).filter(l => l.device_payment && l.device_payment > 0);
   if (!lines.length) {
-    grid.innerHTML = '<p style="color:#aaa;font-size:12px">No active device payments.</p>';
+    grid.innerHTML = '<p style="color:#9A9A9F;font-size:12px">No active device payments.</p>';
     return;
   }
   grid.innerHTML = lines.map(l => {
@@ -454,12 +547,11 @@ function buildDeviceCards(bills) {
   }).join('');
 }
 
-/* ── bootstrap ── */
+/* ── Bootstrap ── */
 fetch('data/data.json')
   .then(r => { if (!r.ok) throw new Error(); return r.json(); })
   .then(data => {
     document.getElementById('state-loading').style.display = 'none';
-    // Sort oldest → newest for display (newest column is rightmost)
     const bills = (data.bills || []).slice().sort(
       (a, b) => new Date(a.billing_period_start) - new Date(b.billing_period_start)
     );
