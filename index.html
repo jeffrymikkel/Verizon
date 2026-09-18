@@ -198,6 +198,7 @@
     .v-dash   { color: #C7C7CC; }
     .v-orange { color: #BF5700; }
     .v-net    { font-weight: 600; }
+    .v-plan-name { font-size: 10px; color: #9A9A9F; }
 
     /* ── Info button (hover tooltip trigger) ── */
     .info-btn {
@@ -213,7 +214,7 @@
       font-style: italic;
       font-weight: 700;
       cursor: default;
-      margin-left: 5px;
+      margin-right: 5px;
       vertical-align: middle;
       flex-shrink: 0;
       user-select: none;
@@ -302,8 +303,7 @@
 const PERSONS = ['Jeff', 'Koko', 'Zach', 'Alex', 'Beth'];
 
 const ROWS = [
-  { key: 'plan',                 label: 'Plan',               fmt: 'text'          },
-  { key: 'plan_base_cost',       label: 'Plan base',          fmt: 'money'         },
+  { key: 'plan_combo',           label: 'Plan',               fmt: 'plan_combo'        },
   { key: 'plan_rate_adjustment', label: 'Rate adj',           fmt: 'money', opt: true },
   { key: 'autopay_discount',     label: 'Autopay discount',   fmt: 'money'         },
   { key: 'net_plan_cost',        label: 'Net plan cost',      fmt: 'money'         },
@@ -370,7 +370,17 @@ function fmtText(v, opt) {
   return String(v);
 }
 
-// Net device cost is the number; breakdown lives in an info tooltip
+// Plan name in small grey + base cost: "Unlimited Welcome — $40.00"
+function fmtPlanCombo(line) {
+  const name = line?.plan;
+  const base = line?.plan_base_cost;
+  if (base === null || base === undefined) return '<span class="v-dash">—</span>';
+  const dollars = `$${parseFloat(base).toFixed(2)}`;
+  if (name) return `<span class="v-plan-name">${name}</span> — ${dollars}`;
+  return dollars;
+}
+
+// Net device cost as the primary number; i on LEFT so dollar amounts stay aligned
 function fmtDeviceCombo(line) {
   const pmt = line?.device_payment;
   if (!pmt || pmt === 0) return '<span class="v-dash">—</span>';
@@ -380,12 +390,12 @@ function fmtDeviceCombo(line) {
     const creditAmt = Math.abs(credit).toFixed(2);
     const netAmt    = (net != null ? Math.abs(net) : Math.abs(pmt + credit)).toFixed(2);
     const tipText   = `$${pmt.toFixed(2)} device payment  ·  \u2212$${creditAmt} trade-in credit`;
-    return `<span class="v-net">$${netAmt}</span><span class="info-btn" data-tip="${tipText}">i</span>`;
+    return `<span class="info-btn" data-tip="${tipText}">i</span> <span class="v-net">$${netAmt}</span>`;
   }
   return `<span class="v-net">$${pmt.toFixed(2)}</span>`;
 }
 
-// Positive one-time = orange; negative = green; description in tooltip
+// Positive one-time = orange; negative = green; i on LEFT so dollar amounts stay aligned
 function fmtOnetime(line) {
   const v = line?.one_time_amount;
   if (!v || v === 0) return '<span class="v-dash">—</span>';
@@ -396,7 +406,7 @@ function fmtOnetime(line) {
   const desc = line?.one_time_description;
   if (desc) {
     const safe = desc.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    return `${amt}<span class="info-btn" data-tip="${safe}">i</span>`;
+    return `<span class="info-btn" data-tip="${safe}">i</span> ${amt}`;
   }
   return amt;
 }
@@ -414,6 +424,7 @@ function cellVal(row, line) {
   if (!line) return '<span class="v-dash">—</span>';
   if (row.fmt === 'text')         return fmtText(line[row.key], row.opt);
   if (row.fmt === 'money')        return fmtMoney(line[row.key], row.opt);
+  if (row.fmt === 'plan_combo')   return fmtPlanCombo(line);
   if (row.fmt === 'device_combo') return fmtDeviceCombo(line);
   if (row.fmt === 'onetime')      return fmtOnetime(line);
   if (row.fmt === 'taxes')        return fmtTaxes(line);
