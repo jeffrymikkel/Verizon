@@ -227,17 +227,18 @@
     #global-tip {
       position: fixed;
       display: none;
-      background: #1D1D1F;
-      color: #fff;
+      background: #fff;
+      color: #6E6E73;
+      border: 1px solid #E5E5EA;
       font-size: 11px;
       font-weight: 400;
       line-height: 1.5;
       padding: 6px 10px;
       border-radius: 7px;
-      white-space: pre;
+      white-space: normal;
+      word-break: break-word;
       z-index: 9999;
       pointer-events: none;
-      max-width: 300px;
     }
 
     /* ── Device section ── */
@@ -322,22 +323,23 @@ document.addEventListener('mouseover', e => {
   const text = btn.dataset.tip;
   if (!text) return;
   tip.textContent = text;
+  const cell = btn.closest('td');
+  tip.style.maxWidth = cell ? cell.getBoundingClientRect().width + 'px' : '260px';
   tip.style.display = 'block';
-  placeTip(btn);
+  placeTip(btn, cell);
 });
 
 document.addEventListener('mouseout', e => {
   if (e.target.closest('.info-btn')) tip.style.display = 'none';
 });
 
-function placeTip(el) {
-  const r  = el.getBoundingClientRect();
-  const tw = tip.offsetWidth;
+function placeTip(btn, cell) {
+  const r  = (cell || btn).getBoundingClientRect();
   const th = tip.offsetHeight;
-  let left = r.right - tw;
-  let top  = r.top - th - 8;
-  if (left < 6) left = 6;
-  if (top  < 6) top  = r.bottom + 8;
+  let left = r.left;
+  let top  = r.top - th - 6;
+  if (left < 4) left = 4;
+  if (top  < 4) top  = r.bottom + 6;
   tip.style.left = left + 'px';
   tip.style.top  = top  + 'px';
 }
@@ -377,7 +379,7 @@ function fmtDeviceCombo(line) {
   if (credit && credit !== 0) {
     const creditAmt = Math.abs(credit).toFixed(2);
     const netAmt    = (net != null ? Math.abs(net) : Math.abs(pmt + credit)).toFixed(2);
-    const tipText   = `$${pmt.toFixed(2)} device payment\u2212$${creditAmt} trade\u2011in credit`;
+    const tipText   = `$${pmt.toFixed(2)} device payment  ·  \u2212$${creditAmt} trade-in credit`;
     return `<span class="v-net">$${netAmt}</span><span class="info-btn" data-tip="${tipText}">i</span>`;
   }
   return `<span class="v-net">$${pmt.toFixed(2)}</span>`;
